@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Clicker</title>
+    <link rel="stylesheet" href="homepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-microchip"></i>
+        </div>
+        <div class="navbar-title">
+            <span class="title-text">PC</span>
+            <span class="title-highlight">Clicker</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="menu">
+            <div class="menu-header">
+                <i class="fas fa-cog fa-spin"></i>
+                <h2>Upgrades</h2>
+            </div>
+            
+            <div class="upgrade" id="upgrade-click" onclick="buyUpgrade('click')">
+                <div class="upgrade-icon">
+                    <i class="fas fa-mouse"></i>
+                </div>
+                <div class="upgrade-info">
+                    <h3>Better Mouse</h3>
+                    <p>Double the PCs per click</p>
+                    <div class="upgrade-details">
+                        <p class="upgrade-cost">Cost: <span id="click-cost">50</span> PCs</p>
+                        <p class="upgrade-level">Level: <span id="click-level">0</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upgrade" id="upgrade-intern" onclick="buyUpgrade('intern')">
+                <div class="upgrade-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="upgrade-info">
+                    <h3>Hire Intern</h3>
+                    <p>Generates 1 PC per second</p>
+                    <div class="upgrade-details">
+                        <p class="upgrade-cost">Cost: <span id="intern-cost">100</span> PCs</p>
+                        <p class="upgrade-level">Owned: <span id="intern-count">0</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upgrade" id="upgrade-technician" onclick="buyUpgrade('technician')">
+                <div class="upgrade-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="upgrade-info">
+                    <h3>Hire Technician</h3>
+                    <p>Generates 5 PCs per second</p>
+                    <div class="upgrade-details">
+                        <p class="upgrade-cost">Cost: <span id="technician-cost">500</span> PCs</p>
+                        <p class="upgrade-level">Owned: <span id="technician-count">0</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upgrade" id="upgrade-engineer" onclick="buyUpgrade('engineer')">
+                <div class="upgrade-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="upgrade-info">
+                    <h3>Hire Engineer</h3>
+                    <p>Generates 20 PCs per second</p>
+                    <div class="upgrade-details">
+                        <p class="upgrade-cost">Cost: <span id="engineer-cost">2000</span> PCs</p>
+                        <p class="upgrade-level">Owned: <span id="engineer-count">0</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upgrade" id="upgrade-factory" onclick="buyUpgrade('factory')">
+                <div class="upgrade-icon">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <div class="upgrade-info">
+                    <h3>Build Factory</h3>
+                    <p>Generates 100 PCs per second</p>
+                    <div class="upgrade-details">
+                        <p class="upgrade-cost">Cost: <span id="factory-cost">10000</span> PCs</p>
+                        <p class="upgrade-level">Owned: <span id="factory-count">0</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upgrade" id="upgrade-datacenter" onclick="buyUpgrade('datacenter')">
+                <div class="upgrade-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div class="upgrade-info">
+                    <h3>Build Datacenter</h3>
+                    <p>Generates 500 PCs per second</p>
+                    <div class="upgrade-details">
+                        <p class="upgrade-cost">Cost: <span id="datacenter-cost">50000</span> PCs</p>
+                        <p class="upgrade-level">Owned: <span id="datacenter-count">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="counter-container">
+                <div id="counter">0</div>
+                <div id="per-second"><i class="fas fa-bolt"></i> <span id="per-second-value">0</span> PCs per second</div>
+            </div>
+            
+            <div class="pc-container" onclick="clickPC()">
+                <div class="pc-image">
+                    <div class="pc-case">
+                        <div class="pc-screen">
+                            <div class="screen-content">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="click-me-text">CLICK ME!</div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-icon"><i class="fas fa-mouse-pointer"></i></div>
+                    <div class="stat-value"><span id="total-clicks">0</span></div>
+                    <div class="stat-label">Total Clicks</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon"><i class="fas fa-desktop"></i></div>
+                    <div class="stat-value"><span id="total-pcs">0</span></div>
+                    <div class="stat-label">Total PCs Built</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon"><i class="fas fa-hand-point-up"></i></div>
+                    <div class="stat-value"><span id="per-click">1</span></div>
+                    <div class="stat-label">PCs Per Click</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="homepage.js"></script>
+</body>
+</html>
