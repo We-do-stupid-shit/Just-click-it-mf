@@ -1,0 +1,1 @@
+Format: username,pcs,click_value,pcs_per_second,total_clicks,total_pcs,upgrade1,upgrade2,upgrade3,upgrade4,upgrade5,upgrade6,last_save
