@@ -2,6 +2,12 @@
 const continueBtn = document.getElementById('continue-btn');
 const newGameBtn = document.getElementById('new-game-btn');
 const profilesBtn = document.getElementById('profiles-btn');
+const leaderboardBtn = document.getElementById('leaderboard-btn');
+
+// Base URL for the application
+const baseUrl = window.location.pathname.includes('/frontend') 
+    ? window.location.pathname.split('/frontend')[0] 
+    : '';
 
 // Animate floating PC icons
 document.querySelectorAll('.floating-pc').forEach(element => {
@@ -32,23 +38,30 @@ document.querySelectorAll('.floating-pc').forEach(element => {
 let currentSaveId = null;
 let allSaves = [];
 
-// Check for existing saves
+// Check for existing saves and determine the most recently played one
 function checkForSaves() {
-    const defaultSave = localStorage.getItem('pcClickerSave');
-    
     // Get all named saves
     allSaves = [];
+    
+    // Check all items in localStorage
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key === 'pcClickerSave' || key.startsWith('pcClickerSave_')) {
             try {
                 const saveData = JSON.parse(localStorage.getItem(key));
                 const saveId = key === 'pcClickerSave' ? 'default' : key.replace('pcClickerSave_', '');
+                
+                // Make sure lastSave property exists
+                if (!saveData.lastSave) {
+                    saveData.lastSave = Date.now();
+                    localStorage.setItem(key, JSON.stringify(saveData));
+                }
+                
                 allSaves.push({
                     id: saveId,
                     name: saveId === 'default' ? 'Default Save' : saveId,
                     data: saveData,
-                    lastSave: saveData.lastSave || Date.now()
+                    lastSave: saveData.lastSave
                 });
             } catch (e) {
                 console.error(`Error parsing save ${key}:`, e);
@@ -59,12 +72,14 @@ function checkForSaves() {
     // Sort saves by last save date (newest first)
     allSaves.sort((a, b) => b.lastSave - a.lastSave);
     
-    // If there's at least one save, default to the most recent
+    // Update last played save ID in localStorage
     if (allSaves.length > 0) {
         currentSaveId = allSaves[0].id;
+        localStorage.setItem('pcClickerLastSave', currentSaveId);
         continueBtn.disabled = false;
     } else {
         currentSaveId = null;
+        localStorage.removeItem('pcClickerLastSave');
         continueBtn.disabled = true;
     }
     
@@ -73,14 +88,23 @@ function checkForSaves() {
 
 // Load a save and start the game
 function loadSave(saveId) {
-    currentSaveId = saveId;
+    // Update the last played save
+    const saveKey = saveId === 'default' ? 'pcClickerSave' : `pcClickerSave_${saveId}`;
+    
+    try {
+        // Update lastSave timestamp
+        const saveData = JSON.parse(localStorage.getItem(saveKey));
+        saveData.lastSave = Date.now();
+        localStorage.setItem(saveKey, JSON.stringify(saveData));
+        
+        // Update last played save ID
+        localStorage.setItem('pcClickerLastSave', saveId);
+    } catch (e) {
+        console.error('Error updating save timestamp:', e);
+    }
     
     // Redirect to the game with the save ID as a parameter
-    if (saveId === 'default') {
-        window.location.href = '/frontend/homepage/homepage.html?save=default';
-    } else {
-        window.location.href = `/frontend/homepage/homepage.html?save=${encodeURIComponent(saveId)}`;
-    }
+    window.location.href = `${baseUrl}/frontend/homepage/homepage.html?save=${encodeURIComponent(saveId)}`;
 }
 
 // Create a new game
@@ -142,17 +166,45 @@ function createNewGame() {
     // Save the new game
     localStorage.setItem(`pcClickerSave_${saveId}`, JSON.stringify(saveData));
     
+    // Update last played save ID
+    localStorage.setItem('pcClickerLastSave', saveId);
+    
     // Load the new game
     loadSave(saveId);
 }
 
-// Show profiles menu (placeholder for future backend implementation)
-function showProfiles() {
-    // This is just a placeholder for now
-    alert("Profiles feature will be implemented with backend. Available saves: " + 
-          allSaves.map(save => save.name).join(", "));
+// Continue the last played save
+function continueSave() {
+    // Try to get the last played save ID from localStorage
+    const lastSaveId = localStorage.getItem('pcClickerLastSave');
     
-    // You can expand this later with your backend implementation
+    if (lastSaveId) {
+        // Check if this save still exists
+        const saveKey = lastSaveId === 'default' ? 'pcClickerSave' : `pcClickerSave_${lastSaveId}`;
+        if (localStorage.getItem(saveKey)) {
+            loadSave(lastSaveId);
+            return;
+        }
+    }
+    
+    // If no valid last save ID is found, use the most recent one from allSaves
+    if (allSaves.length > 0) {
+        loadSave(allSaves[0].id);
+    } else {
+        // If no saves exist, prompt to create a new game
+        alert('No saves found. Please create a new game.');
+    }
+}
+
+// Show profiles menu with server interaction
+function showProfiles() {
+    // Fixed path to profiles.html
+    window.location.href = `../profiles/profiles.html`;
+}
+
+// Navigate to leaderboard
+function goToLeaderboard() {
+    window.location.href = `${baseUrl}/frontend/leaderboard/leaderboard.html`;
 }
 
 // Initialize
@@ -161,23 +213,14 @@ function init() {
     checkForSaves();
     
     // Button event listeners
-    continueBtn.addEventListener('click', () => {
-        if (currentSaveId) {
-            loadSave(currentSaveId);
-        }
-    });
-    
+    continueBtn.addEventListener('click', continueSave);
     newGameBtn.addEventListener('click', createNewGame);
-    
     profilesBtn.addEventListener('click', showProfiles);
+    
+    if (leaderboardBtn) {
+        leaderboardBtn.addEventListener('click', goToLeaderboard);
+    }
 }
 
 // Run initialization when document is loaded
 document.addEventListener('DOMContentLoaded', init);
-
-// Redirect to the game with the save ID as a parameter
-if (saveId === 'default') {
-    window.location.href = '/frontend/homepage/homepage.html?save=default';
-} else {
-    window.location.href = `/frontend/homepage/homepage.html?save=${encodeURIComponent(saveId)}`;
-}

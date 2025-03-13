@@ -1,0 +1,339 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #1a1a2e;
+    color: #e6e6e6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #16213e;
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 1.8rem;
+    color: #4cc9f0;
+    margin-right: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.navbar-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.title-text {
+    color: #e6e6e6;
+}
+
+.title-highlight {
+    color: #4cc9f0;
+    text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+}
+
+.main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.main-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(76, 201, 240, 0.05) 0%, rgba(76, 201, 240, 0) 70%);
+    z-index: 0;
+}
+
+.leaderboard-card {
+    background: linear-gradient(145deg, #222244, #1a1a2e);
+    border-radius: 15px;
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 2px solid #323258;
+    position: relative;
+    z-index: 1;
+}
+
+.trophy-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(145deg, #0c2b4d, #0d3561);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(76, 201, 240, 0.2);
+}
+
+.trophy-icon i {
+    font-size: 4rem;
+    color: gold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+.leaderboard-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #4cc9f0;
+    text-shadow: 0 0 15px rgba(76, 201, 240, 0.3);
+}
+
+.leaderboard-table-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(76, 201, 240, 0.2);
+}
+
+.leaderboard-table th {
+    background-color: rgba(76, 201, 240, 0.1);
+    color: #4cc9f0;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.leaderboard-table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+    background-color: rgba(76, 201, 240, 0.1);
+}
+
+.leaderboard-table tbody tr:nth-child(1) {
+    background-color: rgba(255, 215, 0, 0.1);
+}
+
+.leaderboard-table tbody tr:nth-child(2) {
+    background-color: rgba(192, 192, 192, 0.1);
+}
+
+.leaderboard-table tbody tr:nth-child(3) {
+    background-color: rgba(205, 127, 50, 0.1);
+}
+
+.rank-badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #16213e;
+    font-weight: bold;
+}
+
+.rank-1 {
+    background: linear-gradient(145deg, #ffd700, #ffc800);
+    color: #000;
+}
+
+.rank-2 {
+    background: linear-gradient(145deg, #c0c0c0, #a8a8a8);
+    color: #000;
+}
+
+.rank-3 {
+    background: linear-gradient(145deg, #cd7f32, #b5712c);
+    color: #000;
+}
+
+.score {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
+    color: #4cc9f0;
+}
+
+.loading-row td {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.loading-spinner i {
+    font-size: 2rem;
+    color: #4cc9f0;
+}
+
+.leaderboard-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.leaderboard-btn {
+    background: linear-gradient(145deg, #0c2b4d, #0d3561);
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1.5rem;
+    color: #e6e6e6;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(76, 201, 240, 0.1);
+}
+
+.leaderboard-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(76, 201, 240, 0.3);
+}
+
+.leaderboard-btn:active {
+    transform: translateY(0);
+}
+
+.leaderboard-btn i {
+    margin-right: 8px;
+}
+
+.floating-pc {
+    position: absolute;
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-pc i {
+    color: #4cc9f0;
+}
+
+.error-message {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: #ff6b6b;
+    display: none;
+}
+
+.error-message.visible {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .navbar-title {
+        font-size: 2rem;
+    }
+    
+    .leaderboard-title {
+        font-size: 1.7rem;
+    }
+    
+    .leaderboard-btn {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.2rem;
+    }
+    
+    .trophy-icon {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .trophy-icon i {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .leaderboard-card {
+        padding: 1.5rem;
+    }
+    
+    .trophy-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .trophy-icon i {
+        font-size: 2.5rem;
+    }
+    
+    .leaderboard-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .leaderboard-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+    }
+}
